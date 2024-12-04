@@ -32,4 +32,11 @@ public class Topico {
     @ManyToOne
     @JoinColumn(name = "curso_id")
     private Curso curso;
+
+    public Topico(DatosRegistroTopico datosRegistroTopico, Curso curso) {
+        this.titulo = datosRegistroTopico.titulo();
+        this.mensaje = datosRegistroTopico.mensaje();
+        this.autor = datosRegistroTopico.autor();
+        this.curso = curso;
+    }
 }

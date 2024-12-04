@@ -29,4 +29,9 @@ public class Curso {
 
         @OneToMany(mappedBy = "curso")
         private List<Topico> topicos;
+
+        public Curso(DatosCurso datosCurso) {
+                this.nombreCurso = datosCurso.nombreCurso();
+                this.categoria = datosCurso.categoria();
+        }
 }
