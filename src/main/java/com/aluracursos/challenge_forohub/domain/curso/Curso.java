@@ -1,6 +1,8 @@
 package com.aluracursos.challenge_forohub.domain.curso;
 
 import com.aluracursos.challenge_forohub.domain.topico.Topico;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -28,6 +30,7 @@ public class Curso {
         private Categoria categoria;
 
         @OneToMany(mappedBy = "curso")
+        @JsonBackReference
         private List<Topico> topicos;
 
         public Curso(DatosCurso datosCurso) {

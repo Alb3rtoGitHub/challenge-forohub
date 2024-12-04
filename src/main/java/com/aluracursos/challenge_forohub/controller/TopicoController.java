@@ -2,15 +2,16 @@ package com.aluracursos.challenge_forohub.controller;
 
 import com.aluracursos.challenge_forohub.domain.curso.Curso;
 import com.aluracursos.challenge_forohub.domain.curso.CursoRepository;
+import com.aluracursos.challenge_forohub.domain.topico.DatosListadoTopico;
 import com.aluracursos.challenge_forohub.domain.topico.DatosRegistroTopico;
 import com.aluracursos.challenge_forohub.domain.topico.Topico;
 import com.aluracursos.challenge_forohub.domain.topico.TopicoRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/topicos")
@@ -38,5 +39,13 @@ public class TopicoController {
 
         // Crear el objeto Topico con el curso persistido para evitar el error de Curso no persistido antes de Topico
         topicoRepository.save(new Topico(datosRegistroTopico, cursoExiste));
+    }
+
+    @GetMapping
+    public List<DatosListadoTopico> listadoTopicos() {
+        return topicoRepository.findAll()
+                .stream()
+                .map(DatosListadoTopico::new)
+                .collect(Collectors.toList());
     }
 }

@@ -1,6 +1,8 @@
 package com.aluracursos.challenge_forohub.domain.topico;
 
 import com.aluracursos.challenge_forohub.domain.curso.Curso;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -31,6 +33,7 @@ public class Topico {
 
     @ManyToOne
     @JoinColumn(name = "curso_id")
+    @JsonManagedReference
     private Curso curso;
 
     public Topico(DatosRegistroTopico datosRegistroTopico, Curso curso) {
