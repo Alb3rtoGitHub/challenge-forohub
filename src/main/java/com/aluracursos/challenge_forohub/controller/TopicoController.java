@@ -5,7 +5,7 @@ import com.aluracursos.challenge_forohub.domain.curso.CursoRepository;
 import com.aluracursos.challenge_forohub.domain.topico.DatosRegistroTopico;
 import com.aluracursos.challenge_forohub.domain.topico.Topico;
 import com.aluracursos.challenge_forohub.domain.topico.TopicoRepository;
-import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,7 +23,7 @@ public class TopicoController {
     private CursoRepository cursoRepository;
 
     @PostMapping
-    public void registrarTopico(@RequestBody DatosRegistroTopico datosRegistroTopico) {
+    public void registrarTopico(@RequestBody @Valid DatosRegistroTopico datosRegistroTopico) {
         System.out.println("El Request llega correctamente");
 
         // Buscar si el curso ya existe en la base de datos
