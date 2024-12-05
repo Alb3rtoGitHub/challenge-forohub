@@ -3,10 +3,7 @@ package com.aluracursos.challenge_forohub.controller;
 import com.aluracursos.challenge_forohub.domain.curso.Curso;
 import com.aluracursos.challenge_forohub.domain.curso.CursoRepository;
 import com.aluracursos.challenge_forohub.domain.curso.NombreCurso;
-import com.aluracursos.challenge_forohub.domain.topico.DatosListadoTopico;
-import com.aluracursos.challenge_forohub.domain.topico.DatosRegistroTopico;
-import com.aluracursos.challenge_forohub.domain.topico.Topico;
-import com.aluracursos.challenge_forohub.domain.topico.TopicoRepository;
+import com.aluracursos.challenge_forohub.domain.topico.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,9 +11,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -71,7 +70,7 @@ public class TopicoController {
     }
 
     @GetMapping("/{id}")
-    public DatosListadoTopico buscarPorId(@PathVariable("id") Long id) {
+    public DatosRespuestaTopico retornaDatosTopico(@PathVariable("id") Long id) {
         // Verificación del ID no nulo y valor positivo
         if (id == null || id <= 0) {
             throw new IllegalArgumentException("El id " + id + " no existe." );
@@ -81,10 +80,9 @@ public class TopicoController {
         if (topico == null) {
             throw new IllegalArgumentException("El topico " + id + " no existe." );
         }
-        var datosTopico = new DatosListadoTopico(topico);
 
         // Buscar el tópico por ID
-        return datosTopico;
+        return new DatosRespuestaTopico(topico);
     }
     // a futuro implementar esto y borrar lo anterior:
 //    public ResponseEntity<DatosListadoTopico> buscarPorId(@PathVariable("id") Long id) {
@@ -99,4 +97,15 @@ public class TopicoController {
 //                .map(topico -> ResponseEntity.ok(new DatosListadoTopico(topico)))  // Si se encuentra el tópico
 //                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build()); // Si no se encuentra el tópico
 //    }
+
+    @PutMapping("/{id}")
+    @Transactional
+    public void actualizarTopico(@PathVariable("id") Long id, @RequestBody @Valid DatosActualizarTopico datosActualizarTopico) {
+        if (id == null || id <= 0) {
+            throw new IllegalArgumentException("El id " + id + " no existe." );
+        }
+        Topico topico = topicoRepository.getReferenceById(datosActualizarTopico.id());
+        topico.actualizarDatos(datosActualizarTopico);
+    }
+
 }

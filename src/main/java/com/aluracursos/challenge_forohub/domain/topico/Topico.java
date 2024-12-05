@@ -4,6 +4,7 @@ import com.aluracursos.challenge_forohub.domain.curso.Curso;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -41,5 +42,20 @@ public class Topico {
         this.mensaje = datosRegistroTopico.mensaje();
         this.autor = datosRegistroTopico.autor();
         this.curso = curso;
+    }
+
+    public void actualizarDatos(DatosActualizarTopico datosActualizarTopico) {
+        if (datosActualizarTopico.titulo() != null) {
+            this.titulo = datosActualizarTopico.titulo();
+        }
+
+        //TODO
+        // Hacer lo mismo con el resto...
+        this.mensaje = datosActualizarTopico.mensaje();
+        this.fechaDeCreacion = datosActualizarTopico.fechaDeCreacion();
+        this.status = datosActualizarTopico.statusTopico();
+        this.autor = datosActualizarTopico.autor();
+        this.curso = curso.actualizarDatosCurso(datosActualizarTopico);
+
     }
 }
