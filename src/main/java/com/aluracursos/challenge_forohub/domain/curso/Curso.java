@@ -30,7 +30,7 @@ public class Curso {
         private Categoria categoria;
 
         @OneToMany(mappedBy = "curso")
-        @JsonBackReference
+//        @JsonBackReference
         private List<Topico> topicos;
 
         public Curso(DatosCurso datosCurso) {

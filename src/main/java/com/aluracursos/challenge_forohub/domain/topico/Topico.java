@@ -33,7 +33,7 @@ public class Topico {
 
     @ManyToOne
     @JoinColumn(name = "curso_id")
-    @JsonManagedReference
+//    @JsonManagedReference
     private Curso curso;
 
     public Topico(DatosRegistroTopico datosRegistroTopico, Curso curso) {
