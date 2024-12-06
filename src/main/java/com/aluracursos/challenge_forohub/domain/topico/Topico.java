@@ -32,6 +32,8 @@ public class Topico {
 
     private String autor;
 
+    private Boolean activo;
+
     @ManyToOne
     @JoinColumn(name = "curso_id")
 //    @JsonManagedReference
@@ -41,6 +43,7 @@ public class Topico {
         this.titulo = datosRegistroTopico.titulo();
         this.mensaje = datosRegistroTopico.mensaje();
         this.autor = datosRegistroTopico.autor();
+        this.activo = true;
         this.curso = curso;
     }
 
@@ -49,13 +52,28 @@ public class Topico {
             this.titulo = datosActualizarTopico.titulo();
         }
 
-        //TODO
-        // Hacer lo mismo con el resto...
-        this.mensaje = datosActualizarTopico.mensaje();
-        this.fechaDeCreacion = datosActualizarTopico.fechaDeCreacion();
-        this.status = datosActualizarTopico.statusTopico();
-        this.autor = datosActualizarTopico.autor();
-        this.curso = curso.actualizarDatosCurso(datosActualizarTopico);
+        if (datosActualizarTopico.mensaje() != null) {
+            this.mensaje = datosActualizarTopico.mensaje();
+        }
 
+        if (datosActualizarTopico.fechaDeCreacion() != null) {
+            this.fechaDeCreacion = datosActualizarTopico.fechaDeCreacion();
+        }
+
+        if (datosActualizarTopico.statusTopico() != null) {
+            this.status = datosActualizarTopico.statusTopico();
+        }
+        if (datosActualizarTopico.autor() != null) {
+            this.autor = datosActualizarTopico.autor();
+        }
+
+        if (datosActualizarTopico.datosCurso() != null) {
+            this.curso = curso.actualizarDatosCurso(datosActualizarTopico);
+        }
+
+    }
+
+    public void desactivarTopico() {
+        this.activo = false;
     }
 }

@@ -18,7 +18,10 @@ public record DatosActualizarTopico(
         @NotBlank
         String mensaje,
 
+        @NotNull @Valid
         LocalDateTime fechaDeCreacion,
+
+        @NotNull
         StatusTopico statusTopico,
 
         @NotBlank

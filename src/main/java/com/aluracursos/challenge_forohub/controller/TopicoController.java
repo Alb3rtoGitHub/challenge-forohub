@@ -9,14 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/topicos")
@@ -29,6 +23,7 @@ public class TopicoController {
     private CursoRepository cursoRepository;
 
     @PostMapping
+    @Transactional
     public void registrarTopico(@RequestBody @Valid DatosRegistroTopico datosRegistroTopico) {
         // Buscar si el curso ya existe en la base de datos
         Curso cursoExiste = cursoRepository.findByNombreCursoAndCategoria(
@@ -47,8 +42,8 @@ public class TopicoController {
     // Agrego paginación y ordenamiento por fecha de creación ascendente
     @GetMapping
     public Page<DatosListadoTopico> listadoTopicos(@PageableDefault(page = 0, size = 10, sort = {"fechaDeCreacion"}) Pageable paginacion) {
-        return topicoRepository.findAll(paginacion)
-                .map(DatosListadoTopico::new);
+//        return topicoRepository.findAll(paginacion).map(DatosListadoTopico::new);
+        return topicoRepository.findByActivoTrue(paginacion).map(DatosListadoTopico::new);
     }
 
     @GetMapping("/buscar")
@@ -106,6 +101,22 @@ public class TopicoController {
         }
         Topico topico = topicoRepository.getReferenceById(datosActualizarTopico.id());
         topico.actualizarDatos(datosActualizarTopico);
+    }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public void eliminarTopico(@PathVariable("id") Long id) {
+        if (id == null || id <= 0) {
+            throw new IllegalArgumentException("El id " + id + " no existe." );
+        }
+
+        // DELETE Lógico
+        Topico topico = topicoRepository.getReferenceById(id);
+        topico.desactivarTopico();
+
+        // Para DELETE de BD borrado total
+//        Topico topico = topicoRepository.getReferenceById(id);
+//        topicoRepository.delete(topico);
     }
 
 }
