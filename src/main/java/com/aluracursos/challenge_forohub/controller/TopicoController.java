@@ -9,9 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.net.URI;
 
 @RestController
 @RequestMapping("/topicos")
@@ -25,7 +29,7 @@ public class TopicoController {
 
     @PostMapping
     @Transactional
-    public void registrarTopico(@RequestBody @Valid DatosRegistroTopico datosRegistroTopico) {
+    public ResponseEntity<DatosRespuestaTopico> registrarTopico(@RequestBody @Valid DatosRegistroTopico datosRegistroTopico, UriComponentsBuilder uriComponentsBuilder) {
         // Buscar si el curso ya existe en la base de datos
         Curso cursoExiste = cursoRepository.findByNombreCursoAndCategoria(
                 datosRegistroTopico.datosCurso().nombreCurso(),
@@ -35,16 +39,21 @@ public class TopicoController {
             Curso cursoNuevo = new Curso(datosRegistroTopico.datosCurso());
             return cursoRepository.save(cursoNuevo);
         });
-
+        // Deberá retornar código 201 Created y la URL donde encontrar el topico ej: con GET a http://localhost:8080/topicos/id
         // Crear el objeto Topico con el curso persistido para evitar el error de Curso no persistido antes de Topico
-        topicoRepository.save(new Topico(datosRegistroTopico, cursoExiste));
+        Topico topico = topicoRepository.save(new Topico(datosRegistroTopico, cursoExiste));
+        DatosRespuestaTopico datosRespuestaTopico = new DatosRespuestaTopico(topico);
+
+        //URL donde encontrar el topico
+        URI uri = uriComponentsBuilder.path("/topicos/{id}").buildAndExpand(topico.getId()).toUri();
+        return ResponseEntity.created(uri).body(datosRespuestaTopico);
     }
 
     // Agrego paginación y ordenamiento por fecha de creación ascendente
     @GetMapping
-    public Page<DatosListadoTopico> listadoTopicos(@PageableDefault(page = 0, size = 10, sort = {"fechaDeCreacion"}) Pageable paginacion) {
+    public ResponseEntity<Page<DatosListadoTopico>> listadoTopicos(@PageableDefault(page = 0, size = 10, sort = {"fechaDeCreacion"}) Pageable paginacion) {
 //        return topicoRepository.findAll(paginacion).map(DatosListadoTopico::new);
-        return topicoRepository.findByActivoTrue(paginacion).map(DatosListadoTopico::new);
+        return ResponseEntity.ok(topicoRepository.findByActivoTrue(paginacion).map(DatosListadoTopico::new));
     }
 
     @GetMapping("/buscar")
@@ -66,33 +75,18 @@ public class TopicoController {
     }
 
     @GetMapping("/{id}")
-    public DatosRespuestaTopico retornaDatosTopico(@PathVariable("id") Long id) {
-        // Verificación del ID no nulo y valor positivo
+    public ResponseEntity<DatosRespuestaTopico> retornaDatosTopicos(@PathVariable("id") Long id) {
+        // Verificación de que el ID es positivo
         if (id == null || id <= 0) {
-            throw new IllegalArgumentException("El id " + id + " no existe." );
-        }
-
-        Topico topico = topicoRepository.findById(id).orElse(null);
-        if (topico == null) {
-            throw new IllegalArgumentException("El topico " + id + " no existe." );
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(null);  // Devuelve 400 si el ID es nulo o no positivo
         }
 
         // Buscar el tópico por ID
-        return new DatosRespuestaTopico(topico);
+        return topicoRepository.findById(id)
+                .map(topico -> ResponseEntity.ok(new DatosRespuestaTopico(topico)))  // Si se encuentra el tópico
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build()); // Si no se encuentra el tópico
     }
-    // a futuro implementar esto y borrar lo anterior:
-//    public ResponseEntity<DatosListadoTopico> buscarPorId(@PathVariable("id") Long id) {
-//        // Verificación de que el ID es positivo
-//        if (id == null || id <= 0) {
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-//                    .body(null);  // Devuelve 400 si el ID es nulo o no positivo
-//        }
-//
-//        // Buscar el tópico por ID
-//        return topicoRepository.findById(id)
-//                .map(topico -> ResponseEntity.ok(new DatosListadoTopico(topico)))  // Si se encuentra el tópico
-//                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build()); // Si no se encuentra el tópico
-//    }
 
     @PutMapping("/{id}")
     @Transactional
@@ -130,6 +124,7 @@ public class TopicoController {
         // Para DELETE de BD borrado del registro
 //        Topico topico = topicoRepository.getReferenceById(id);
 //        topicoRepository.delete(topico);
+//        return ResponseEntity.noContent().build(); // retorna el código 204
     }
 
 }
