@@ -1,7 +1,6 @@
 package com.aluracursos.challenge_forohub.domain.topico;
 
 import com.aluracursos.challenge_forohub.domain.curso.NombreCurso;
-import io.micrometer.observation.ObservationFilter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -18,4 +17,5 @@ public interface TopicoRepository extends JpaRepository<Topico, Long> {
             Pageable paginacion
     );
 
+    Topico getTopicoByIdAndActivoIsTrue(Long id);
 }

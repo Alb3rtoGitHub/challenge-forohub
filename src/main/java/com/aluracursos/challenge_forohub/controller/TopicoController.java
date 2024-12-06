@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -95,17 +96,28 @@ public class TopicoController {
 
     @PutMapping("/{id}")
     @Transactional
-    public void actualizarTopico(@PathVariable("id") Long id, @RequestBody @Valid DatosActualizarTopico datosActualizarTopico) {
+    public ResponseEntity actualizarTopico(@PathVariable("id") Long id, @RequestBody @Valid DatosActualizarTopico datosActualizarTopico, @PageableDefault(size = 10, sort = "fechaDeCreacion") Pageable paginacion) {
         if (id == null || id <= 0) {
             throw new IllegalArgumentException("El id " + id + " no existe." );
         }
-        Topico topico = topicoRepository.getReferenceById(datosActualizarTopico.id());
+//        Topico topico = topicoRepository.getReferenceById(datosActualizarTopico.id());
+//        if (!topico.getActivo()) {
+//            throw new IllegalArgumentException("El topico " + datosActualizarTopico.id() + " no esta activo.");
+//        }
+
+        //TODO
+        // Ver si esto es mejor o no
+        Topico topico = topicoRepository.getTopicoByIdAndActivoIsTrue(id);
+        if (topico == null) {
+            throw new IllegalArgumentException("El topico " + id + " no existe." );
+        }
         topico.actualizarDatos(datosActualizarTopico);
+        return ResponseEntity.ok(new DatosRespuestaTopico(topico));
     }
 
     @DeleteMapping("/{id}")
     @Transactional
-    public void eliminarTopico(@PathVariable("id") Long id) {
+    public ResponseEntity eliminarTopico(@PathVariable("id") Long id) {
         if (id == null || id <= 0) {
             throw new IllegalArgumentException("El id " + id + " no existe." );
         }
@@ -113,8 +125,9 @@ public class TopicoController {
         // DELETE Lógico
         Topico topico = topicoRepository.getReferenceById(id);
         topico.desactivarTopico();
+        return ResponseEntity.noContent().build(); // retorna el código 204
 
-        // Para DELETE de BD borrado total
+        // Para DELETE de BD borrado del registro
 //        Topico topico = topicoRepository.getReferenceById(id);
 //        topicoRepository.delete(topico);
     }

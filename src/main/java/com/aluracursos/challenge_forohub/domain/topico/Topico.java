@@ -1,7 +1,6 @@
 package com.aluracursos.challenge_forohub.domain.topico;
 
 import com.aluracursos.challenge_forohub.domain.curso.Curso;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
