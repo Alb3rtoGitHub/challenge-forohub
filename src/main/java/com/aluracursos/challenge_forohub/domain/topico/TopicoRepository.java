@@ -1,13 +1,18 @@
 package com.aluracursos.challenge_forohub.domain.topico;
 
 import com.aluracursos.challenge_forohub.domain.curso.NombreCurso;
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.Optional;
+
 public interface TopicoRepository extends JpaRepository<Topico, Long> {
+    Optional<Object> findByTituloAndMensaje(String titulo, String mensaje);
+
     Page<Topico> findByActivoTrue(Pageable paginacion);
 
     @Query("SELECT t FROM Topico t JOIN t.curso c WHERE c.nombreCurso = :nombreCurso AND YEAR(t.fechaDeCreacion) = :anio")
@@ -18,4 +23,5 @@ public interface TopicoRepository extends JpaRepository<Topico, Long> {
     );
 
     Topico getTopicoByIdAndActivoIsTrue(Long id);
+
 }

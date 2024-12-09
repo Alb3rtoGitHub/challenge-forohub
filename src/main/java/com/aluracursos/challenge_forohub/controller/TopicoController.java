@@ -30,6 +30,12 @@ public class TopicoController {
     @PostMapping
     @Transactional
     public ResponseEntity<DatosRespuestaTopico> registrarTopico(@RequestBody @Valid DatosRegistroTopico datosRegistroTopico, UriComponentsBuilder uriComponentsBuilder) {
+        // Validar si el topico ya existe
+        topicoRepository.findByTituloAndMensaje(datosRegistroTopico.titulo(), datosRegistroTopico.mensaje())
+                .ifPresent(topico -> {
+                    throw new IllegalArgumentException("Existe el tópico con el mismo título y mensaje.");
+                });
+
         // Buscar si el curso ya existe en la base de datos
         Curso cursoExiste = cursoRepository.findByNombreCursoAndCategoria(
                 datosRegistroTopico.datosCurso().nombreCurso(),
@@ -79,7 +85,7 @@ public class TopicoController {
         // Verificación de que el ID es positivo
         if (id == null || id <= 0) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(null);  // Devuelve 400 si el ID es nulo o no positivo
+                    .body(null);  // Devuelve 400 si el ID es nulo o negativo
         }
 
         // Buscar el tópico por ID
