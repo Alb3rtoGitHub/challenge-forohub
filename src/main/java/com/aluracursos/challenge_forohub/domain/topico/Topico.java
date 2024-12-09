@@ -1,9 +1,7 @@
 package com.aluracursos.challenge_forohub.domain.topico;
 
 import com.aluracursos.challenge_forohub.domain.curso.Curso;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -31,7 +29,7 @@ public class Topico {
 
     private String autor;
 
-    private Boolean activo;
+//    private Boolean activo;
 
     @ManyToOne
     @JoinColumn(name = "curso_id")
@@ -42,7 +40,7 @@ public class Topico {
         this.titulo = datosRegistroTopico.titulo();
         this.mensaje = datosRegistroTopico.mensaje();
         this.autor = datosRegistroTopico.autor();
-        this.activo = true;
+//        this.activo = true;
         this.curso = curso;
     }
 
@@ -72,7 +70,8 @@ public class Topico {
 
     }
 
-    public void desactivarTopico() {
-        this.activo = false;
-    }
+    // Para borrado lógico
+//    public void desactivarTopico() {
+//        this.activo = false;
+//    }
 }

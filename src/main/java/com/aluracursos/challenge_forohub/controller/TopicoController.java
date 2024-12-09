@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/topicos")
@@ -33,7 +34,7 @@ public class TopicoController {
         // Validar si el topico ya existe
         topicoRepository.findByTituloAndMensaje(datosRegistroTopico.titulo(), datosRegistroTopico.mensaje())
                 .ifPresent(topico -> {
-                    throw new IllegalArgumentException("Existe el tópico con el mismo título y mensaje.");
+                    throw new IllegalArgumentException("Ya Existe un tópico con el mismo título y mensaje.");
                 });
 
         // Buscar si el curso ya existe en la base de datos
@@ -52,14 +53,14 @@ public class TopicoController {
 
         //URL donde encontrar el topico
         URI uri = uriComponentsBuilder.path("/topicos/{id}").buildAndExpand(topico.getId()).toUri();
-        return ResponseEntity.created(uri).body(datosRespuestaTopico);
+        return ResponseEntity.created(uri).body(datosRespuestaTopico); // Retorna el 201 Created
     }
 
     // Agrego paginación y ordenamiento por fecha de creación ascendente
     @GetMapping
     public ResponseEntity<Page<DatosListadoTopico>> listadoTopicos(@PageableDefault(page = 0, size = 10, sort = {"fechaDeCreacion"}) Pageable paginacion) {
-//        return topicoRepository.findAll(paginacion).map(DatosListadoTopico::new);
-        return ResponseEntity.ok(topicoRepository.findByActivoTrue(paginacion).map(DatosListadoTopico::new));
+        return ResponseEntity.ok(topicoRepository.findAll(paginacion).map(DatosListadoTopico::new)) ;
+//        return ResponseEntity.ok(topicoRepository.findByActivoTrue(paginacion).map(DatosListadoTopico::new));
     }
 
     @GetMapping("/buscar")
@@ -96,21 +97,27 @@ public class TopicoController {
 
     @PutMapping("/{id}")
     @Transactional
-    public ResponseEntity actualizarTopico(@PathVariable("id") Long id, @RequestBody @Valid DatosActualizarTopico datosActualizarTopico, @PageableDefault(size = 10, sort = "fechaDeCreacion") Pageable paginacion) {
+    public ResponseEntity<DatosRespuestaTopico> actualizarTopico(@PathVariable("id") Long id, @RequestBody @Valid DatosActualizarTopico datosActualizarTopico) {
+        // Validar si el ID es válido
         if (id == null || id <= 0) {
-            throw new IllegalArgumentException("El id " + id + " no existe." );
+            throw new IllegalArgumentException("El id proporcionado no es válido: " + id);
         }
-//        Topico topico = topicoRepository.getReferenceById(datosActualizarTopico.id());
+
+        // Buscar el topico con Optional
+        var topicoOptional = topicoRepository.findById(id);
+
+        // Verificar si el tópico existe y está activo
+        if (!topicoOptional.isPresent()) {
+            throw new IllegalArgumentException("El tópico con ID " + id + " no existe.");
+        }
+
+        Topico topico = topicoOptional.get();
+        // Verificar si el tópico está activo
 //        if (!topico.getActivo()) {
-//            throw new IllegalArgumentException("El topico " + datosActualizarTopico.id() + " no esta activo.");
+//            throw new IllegalArgumentException("El tópico con ID " + id + " no está activo.");
 //        }
 
-        //TODO
-        // Ver si esto es mejor o no
-        Topico topico = topicoRepository.getTopicoByIdAndActivoIsTrue(id);
-        if (topico == null) {
-            throw new IllegalArgumentException("El topico " + id + " no existe." );
-        }
+        // Actualizo datos y retorno el topico actualizado
         topico.actualizarDatos(datosActualizarTopico);
         return ResponseEntity.ok(new DatosRespuestaTopico(topico));
     }
@@ -122,14 +129,21 @@ public class TopicoController {
             throw new IllegalArgumentException("El id " + id + " no existe." );
         }
 
-        // DELETE Lógico
-        Topico topico = topicoRepository.getReferenceById(id);
-        topico.desactivarTopico();
+        // Para DELETE de BD borrado del registro
+        // Verificar que el topico existe
+        Optional<Topico> optionalTopico = topicoRepository.findById(id);
+        if (!optionalTopico.isPresent()) {
+            throw new IllegalArgumentException("El tópico con id " + id + " no existe.");
+        }
+
+        // Realiza el DELETE físico del registro
+        topicoRepository.deleteById(id);
+
         return ResponseEntity.noContent().build(); // retorna el código 204
 
-        // Para DELETE de BD borrado del registro
+        // DELETE Lógico
 //        Topico topico = topicoRepository.getReferenceById(id);
-//        topicoRepository.delete(topico);
+//        topico.desactivarTopico();
 //        return ResponseEntity.noContent().build(); // retorna el código 204
     }
 
