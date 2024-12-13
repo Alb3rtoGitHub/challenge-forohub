@@ -34,7 +34,12 @@ public class TokenService {
         }
     }
 
+    // Validar Token
     public String getSubject(String token) {
+        // Valido si el token es nulo
+        if (token == null) {
+            throw new RuntimeException("Token null");
+        }
 
         DecodedJWT verifier = null;
         try {
