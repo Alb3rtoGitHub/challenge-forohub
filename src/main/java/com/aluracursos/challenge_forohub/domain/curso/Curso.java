@@ -11,6 +11,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Table(name = "cursos")
@@ -21,28 +22,28 @@ import java.util.List;
 @EqualsAndHashCode(of = "id")
 public class Curso {
 
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-        @Enumerated(EnumType.STRING)
-        private NombreCurso nombreCurso;
+    @Enumerated(EnumType.STRING)
+    private NombreCurso nombreCurso;
 
-        @Enumerated(EnumType.STRING)
-        private Categoria categoria;
+    @Enumerated(EnumType.STRING)
+    private Categoria categoria;
 
-        @OneToMany(mappedBy = "curso")
+    @OneToMany(mappedBy = "curso")
 //        @JsonBackReference
-        private List<Topico> topicos;
+    private List<Topico> topicos = new ArrayList<>();
 
-        public Curso(DatosCurso datosCurso) {
-                this.nombreCurso = datosCurso.nombreCurso();
-                this.categoria = datosCurso.categoria();
-        }
+    public Curso(DatosCurso datosCurso) {
+        this.nombreCurso = datosCurso.nombreCurso();
+        this.categoria = datosCurso.categoria();
+    }
 
-        public Curso actualizarDatosCurso(DatosActualizarTopico datosActualizarTopico) {
-                this.nombreCurso = datosActualizarTopico.datosCurso().nombreCurso();
-                this.categoria = datosActualizarTopico.datosCurso().categoria();
-                return this;
-        }
+    public Curso actualizarDatosCurso(DatosActualizarTopico datosActualizarTopico) {
+        this.nombreCurso = datosActualizarTopico.datosCurso().nombreCurso();
+        this.categoria = datosActualizarTopico.datosCurso().categoria();
+        return this;
+    }
 }

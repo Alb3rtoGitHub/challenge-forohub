@@ -1,4 +1,4 @@
-package com.aluracursos.challenge_forohub.domain.usuario;
+package com.aluracursos.challenge_forohub.domain.perfil;
 
 public enum Rol {
     ROLE_ALUMNO,

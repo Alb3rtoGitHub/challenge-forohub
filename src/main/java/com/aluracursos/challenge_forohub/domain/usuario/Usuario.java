@@ -1,5 +1,6 @@
 package com.aluracursos.challenge_forohub.domain.usuario;
 
+import com.aluracursos.challenge_forohub.domain.perfil.Perfil;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
