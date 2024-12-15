@@ -10,7 +10,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.Optional;
 
 public interface TopicoRepository extends JpaRepository<Topico, Long> {
-    Optional<Object> findByTituloAndMensaje(String titulo, String mensaje);
+    Optional<Topico> findByTituloAndMensaje(String titulo, String mensaje);
 
 //    Page<Topico> findByActivoTrue(Pageable paginacion);
 

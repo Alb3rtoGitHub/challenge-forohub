@@ -1,5 +1,7 @@
 package com.aluracursos.challenge_forohub.domain.topico;
 
+import com.aluracursos.challenge_forohub.domain.usuario.Usuario;
+
 import java.time.LocalDateTime;
 
 public record DatosListadoTopico(
@@ -18,7 +20,7 @@ public record DatosListadoTopico(
                 topico.getMensaje(),
                 topico.getFechaDeCreacion(),
                 topico.getStatus(),
-                topico.getAutor(),
+                topico.getAutor().getNombre(),
                 String.valueOf(topico.getCurso().getNombreCurso())
         );
     }

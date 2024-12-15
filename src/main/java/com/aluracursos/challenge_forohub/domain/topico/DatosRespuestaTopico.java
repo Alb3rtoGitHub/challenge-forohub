@@ -18,7 +18,7 @@ public record DatosRespuestaTopico(
                 topico.getMensaje(),
                 topico.getFechaDeCreacion(),
                 topico.getStatus(),
-                topico.getAutor(),
+                topico.getAutor().getNombre(),
                 String.valueOf(topico.getCurso().getNombreCurso())
         );
     }

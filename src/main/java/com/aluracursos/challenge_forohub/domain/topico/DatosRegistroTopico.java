@@ -13,8 +13,8 @@ public record DatosRegistroTopico(
         @NotBlank
         String mensaje,
 
-        @NotBlank
-        String autor,
+        @NotNull
+        Long autorId,
 
         @NotNull
         @Valid

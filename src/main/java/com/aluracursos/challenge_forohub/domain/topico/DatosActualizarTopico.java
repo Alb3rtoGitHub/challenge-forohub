@@ -24,8 +24,8 @@ public record DatosActualizarTopico(
         @NotNull
         StatusTopico statusTopico,
 
-        @NotBlank
-        String autor,
+        @NotNull
+        Long autorId,
 
         @NotNull
         @Valid

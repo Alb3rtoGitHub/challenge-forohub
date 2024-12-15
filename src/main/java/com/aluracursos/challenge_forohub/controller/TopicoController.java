@@ -4,6 +4,8 @@ import com.aluracursos.challenge_forohub.domain.curso.Curso;
 import com.aluracursos.challenge_forohub.domain.curso.CursoRepository;
 import com.aluracursos.challenge_forohub.domain.curso.NombreCurso;
 import com.aluracursos.challenge_forohub.domain.topico.*;
+import com.aluracursos.challenge_forohub.domain.usuario.Usuario;
+import com.aluracursos.challenge_forohub.domain.usuario.UsuarioRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -28,6 +30,9 @@ public class TopicoController {
     @Autowired
     private CursoRepository cursoRepository;
 
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
     @PostMapping
     @Transactional
     public ResponseEntity<DatosRespuestaTopico> registrarTopico(@RequestBody @Valid DatosRegistroTopico datosRegistroTopico, UriComponentsBuilder uriComponentsBuilder) {
@@ -46,9 +51,15 @@ public class TopicoController {
             Curso cursoNuevo = new Curso(datosRegistroTopico.datosCurso());
             return cursoRepository.save(cursoNuevo);
         });
+
+        // Buscar al usuario por ID (se pasa como pa
+        // rte del request)
+        Usuario autor = usuarioRepository.findById(datosRegistroTopico.autorId())
+                .orElseThrow(() -> new IllegalArgumentException("Autor no encontrado con ID: " + datosRegistroTopico.autorId()));
+
         // Deberá retornar código 201 Created y la URL donde encontrar el topico ej: con GET a http://localhost:8080/topicos/id
         // Crear el objeto Topico con el curso persistido para evitar el error de Curso no persistido antes de Topico
-        Topico topico = topicoRepository.save(new Topico(datosRegistroTopico, cursoExiste));
+        Topico topico = topicoRepository.save(new Topico(datosRegistroTopico, cursoExiste, autor));
         DatosRespuestaTopico datosRespuestaTopico = new DatosRespuestaTopico(topico);
 
         //URL donde encontrar el topico
@@ -117,8 +128,12 @@ public class TopicoController {
 //            throw new IllegalArgumentException("El tópico con ID " + id + " no está activo.");
 //        }
 
+        // Buscar el usuario por ID
+        Usuario autor = usuarioRepository.findById(datosActualizarTopico.autorId())
+                .orElseThrow(() -> new IllegalArgumentException("Autor no encontrado con ID: " + datosActualizarTopico.autorId()));
+
         // Actualizo datos y retorno el topico actualizado
-        topico.actualizarDatos(datosActualizarTopico);
+        topico.actualizarDatos(datosActualizarTopico, autor);
         return ResponseEntity.ok(new DatosRespuestaTopico(topico));
     }
 

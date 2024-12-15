@@ -1,6 +1,7 @@
 package com.aluracursos.challenge_forohub.domain.topico;
 
 import com.aluracursos.challenge_forohub.domain.curso.Curso;
+import com.aluracursos.challenge_forohub.domain.usuario.Usuario;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -27,7 +28,9 @@ public class Topico {
     @Enumerated(EnumType.STRING)
     private StatusTopico status = StatusTopico.SIN_RESPUESTA;
 
-    private String autor;
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private Usuario autor;
 
 //    private Boolean activo;
 
@@ -36,15 +39,15 @@ public class Topico {
 //    @JsonManagedReference
     private Curso curso;
 
-    public Topico(DatosRegistroTopico datosRegistroTopico, Curso curso) {
+    public Topico(DatosRegistroTopico datosRegistroTopico, Curso curso, Usuario autor) {
         this.titulo = datosRegistroTopico.titulo();
         this.mensaje = datosRegistroTopico.mensaje();
-        this.autor = datosRegistroTopico.autor();
+        this.autor = autor;
 //        this.activo = true;
         this.curso = curso;
     }
 
-    public void actualizarDatos(DatosActualizarTopico datosActualizarTopico) {
+    public void actualizarDatos(DatosActualizarTopico datosActualizarTopico, Usuario autorActualizado) {
         if (datosActualizarTopico.titulo() != null) {
             this.titulo = datosActualizarTopico.titulo();
         }
@@ -60,8 +63,8 @@ public class Topico {
         if (datosActualizarTopico.statusTopico() != null) {
             this.status = datosActualizarTopico.statusTopico();
         }
-        if (datosActualizarTopico.autor() != null) {
-            this.autor = datosActualizarTopico.autor();
+        if (autorActualizado != null) {
+            this.autor = autorActualizado;
         }
 
         if (datosActualizarTopico.datosCurso() != null) {
