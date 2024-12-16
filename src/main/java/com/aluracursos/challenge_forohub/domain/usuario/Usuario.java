@@ -1,8 +1,13 @@
 package com.aluracursos.challenge_forohub.domain.usuario;
 
 import com.aluracursos.challenge_forohub.domain.perfil.Perfil;
+import com.aluracursos.challenge_forohub.domain.perfil.Rol;
 import com.aluracursos.challenge_forohub.domain.respuesta.Respuesta;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -43,6 +48,14 @@ public class Usuario implements UserDetails {
 
     @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL)
     private List<Respuesta> respuestas = new ArrayList<>();
+
+    public Usuario(DatosRegistroUsuario datosRegistroUsuario, String passwordEncriptado, List<Perfil> perfiles) {
+        this.nombre = datosRegistroUsuario.nombre();
+        this.correoElectronico = datosRegistroUsuario.correoElectronico();
+        this.contrasena = passwordEncriptado;
+        this.perfiles = perfiles;
+    }
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
