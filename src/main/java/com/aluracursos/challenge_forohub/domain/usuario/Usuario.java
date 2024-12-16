@@ -1,6 +1,7 @@
 package com.aluracursos.challenge_forohub.domain.usuario;
 
 import com.aluracursos.challenge_forohub.domain.perfil.Perfil;
+import com.aluracursos.challenge_forohub.domain.respuesta.Respuesta;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -26,7 +27,10 @@ public class Usuario implements UserDetails {
     private Long id;
 
     private String nombre;
+
+    @Column(name = "correo_electronico", nullable = false, unique = true)
     private String correoElectronico;
+
     private String contrasena;
 
     @ManyToMany(fetch = FetchType.EAGER) // Los perfiles se cargan con el usuario
@@ -37,6 +41,8 @@ public class Usuario implements UserDetails {
     )
     private List<Perfil> perfiles = new ArrayList<>();
 
+    @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL)
+    private List<Respuesta> respuestas = new ArrayList<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

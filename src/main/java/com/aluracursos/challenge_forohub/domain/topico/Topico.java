@@ -1,6 +1,7 @@
 package com.aluracursos.challenge_forohub.domain.topico;
 
 import com.aluracursos.challenge_forohub.domain.curso.Curso;
+import com.aluracursos.challenge_forohub.domain.respuesta.Respuesta;
 import com.aluracursos.challenge_forohub.domain.usuario.Usuario;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -9,6 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Table(name = "topicos")
 @Entity(name = "Topico")
@@ -38,6 +40,9 @@ public class Topico {
     @JoinColumn(name = "curso_id")
 //    @JsonManagedReference
     private Curso curso;
+
+    @OneToMany(mappedBy = "topico")
+    private List<Respuesta> respuestas;
 
     public Topico(DatosRegistroTopico datosRegistroTopico, Curso curso, Usuario autor) {
         this.titulo = datosRegistroTopico.titulo();
