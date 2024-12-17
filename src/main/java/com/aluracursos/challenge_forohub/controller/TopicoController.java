@@ -141,7 +141,7 @@ public class TopicoController {
     @Transactional
     public ResponseEntity eliminarTopico(@PathVariable("id") Long id) {
         if (id == null || id <= 0) {
-            throw new IllegalArgumentException("El id " + id + " no existe." );
+            throw new IllegalArgumentException("El id " + id + " no existe.");
         }
 
         // Para DELETE de BD borrado del registro
@@ -153,7 +153,6 @@ public class TopicoController {
 
         // Realiza el DELETE físico del registro
         topicoRepository.deleteById(id);
-
         return ResponseEntity.noContent().build(); // retorna el código 204
 
         // DELETE Lógico

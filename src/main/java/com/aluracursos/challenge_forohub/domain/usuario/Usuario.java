@@ -4,6 +4,7 @@ import com.aluracursos.challenge_forohub.domain.perfil.Perfil;
 import com.aluracursos.challenge_forohub.domain.perfil.Rol;
 import com.aluracursos.challenge_forohub.domain.respuesta.Respuesta;
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -90,5 +91,19 @@ public class Usuario implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public void actualizarDatosUsuario(DatosActualizarUsuario datosActualizarUsuario, List<Perfil> nuevosPerfiles, String passwordEncriptado) {
+        if (datosActualizarUsuario.correoElectronico() != null) {
+            this.correoElectronico = datosActualizarUsuario.correoElectronico();
+        }
+
+        if (passwordEncriptado != null) {
+            this.contrasena = passwordEncriptado;
+        }
+
+        if (datosActualizarUsuario.perfiles() != null) {
+            this.perfiles = nuevosPerfiles;
+        }
     }
 }

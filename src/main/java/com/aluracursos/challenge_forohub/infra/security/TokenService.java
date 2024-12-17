@@ -30,7 +30,8 @@ public class TokenService {
                     .withExpiresAt(generarFechaExpiracion())
                     .sign(algorithm);
         } catch (JWTCreationException exception) {
-            throw new RuntimeException("Error al generar el token JWT", exception);
+//            throw new RuntimeException("Error al generar el token JWT", exception);
+            throw new JWTException("Error al generar el token JWT", exception);
         }
     }
 
@@ -38,24 +39,31 @@ public class TokenService {
     public String getSubject(String token) {
         // Valido si el token es nulo
         if (token == null) {
-            throw new RuntimeException("Token null");
+//            throw new RuntimeException("Se ha proporcionado un Token nulo");
+            throw new JWTException("El token no puede ser nulo.");
         }
 
-        DecodedJWT verifier = null;
         try {
             Algorithm algorithm = Algorithm.HMAC256(apiSecret); // validando firma del token
-            verifier = JWT.require(algorithm)
+            DecodedJWT verifier = JWT.require(algorithm)
                     .withIssuer("aluracursos")
                     .build()
                     .verify(token);
-            verifier.getSubject();
+            String subject = verifier.getSubject();
+            if (subject == null) {
+//                throw new RuntimeException("Se token no contiene un subject válido");
+                throw new JWTException("El token no contiene un subject válido.");
+            }
+            return subject;
         } catch (JWTVerificationException exception){
-            System.out.println(exception.toString());
+            // Manejar el caso de token expirado o inválido
+//            throw new RuntimeException("Error al verificar el token: " + exception.getMessage(), exception);
+            throw new JWTException("Error al verificar el token JWT: " + exception.getMessage(), exception);
         }
-        if(verifier.getSubject() == null){
-            throw new RuntimeException("Verifier inválido");
-        }
-        return verifier.getSubject();
+//        if(verifier.getSubject() == null){
+//            throw new RuntimeException("Verifier inválido");
+//        }
+//        return verifier.getSubject();
     }
 
     private Instant generarFechaExpiracion() {

@@ -1,7 +1,5 @@
 package com.aluracursos.challenge_forohub.domain.topico;
 
-import com.aluracursos.challenge_forohub.domain.usuario.Usuario;
-
 import java.time.LocalDateTime;
 
 public record DatosListadoTopico(

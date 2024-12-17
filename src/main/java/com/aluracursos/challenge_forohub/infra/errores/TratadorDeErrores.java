@@ -1,5 +1,6 @@
 package com.aluracursos.challenge_forohub.infra.errores;
 
+import com.aluracursos.challenge_forohub.infra.security.JWTException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -27,12 +28,16 @@ public class TratadorDeErrores {
         return ResponseEntity.badRequest().body(errores);
     }
 
-
+    @ExceptionHandler(JWTException.class)
+    public ResponseEntity tratarJWTException(JWTException ex) {
+        return ResponseEntity.status(401).body("Error de autenticación: " + ex.getMessage());
+    }
 
     private record DatosErrorValidacion(String campo, String error){
         public DatosErrorValidacion(FieldError error) {
             this(error.getField(), error.getDefaultMessage());
         }
     }
+
 
 }
