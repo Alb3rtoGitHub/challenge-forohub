@@ -74,11 +74,10 @@ public class UsuarioController {
 
         // Crear un usuario
         Usuario usuario = usuarioRepository.save(new Usuario(datosRegistroUsuario, passwordEncriptado, perfiles));
-        DatosRespuestaUsuario datosRespuestaUsuario = new DatosRespuestaUsuario(usuario);
 
         //URL donde encontrar el topico
         URI uri = uriComponentsBuilder.path("/usuarios/{id}").buildAndExpand(usuario.getId()).toUri();
-        return ResponseEntity.created(uri).body(datosRespuestaUsuario); // Retorna el 201 Created
+        return ResponseEntity.created(uri).body(new DatosRespuestaUsuario(usuario)); // Retorna el 201 Created
     }
 
     @PutMapping("/{id}")
