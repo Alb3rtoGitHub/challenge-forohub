@@ -3,6 +3,7 @@ package com.aluracursos.challenge_forohub.domain.usuario;
 import com.aluracursos.challenge_forohub.domain.perfil.Perfil;
 import com.aluracursos.challenge_forohub.domain.perfil.Rol;
 import com.aluracursos.challenge_forohub.domain.respuesta.Respuesta;
+import com.aluracursos.challenge_forohub.domain.topico.Topico;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
@@ -47,7 +48,7 @@ public class Usuario implements UserDetails {
     )
     private List<Perfil> perfiles = new ArrayList<>();
 
-    @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Respuesta> respuestas = new ArrayList<>();
 
     public Usuario(DatosRegistroUsuario datosRegistroUsuario, String passwordEncriptado, List<Perfil> perfiles) {

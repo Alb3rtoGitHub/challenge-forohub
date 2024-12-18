@@ -1,6 +1,9 @@
 package com.aluracursos.challenge_forohub.domain.topico;
 
+import com.aluracursos.challenge_forohub.domain.respuesta.DatosRespuestaRespuesta;
+
 import java.time.LocalDateTime;
+import java.util.List;
 
 public record DatosListadoTopico(
         Long id,
@@ -9,7 +12,8 @@ public record DatosListadoTopico(
         LocalDateTime fechaDeCreacion,
         StatusTopico statusTopico,
         String autor,
-        String curso
+        String curso,
+        List<DatosRespuestaRespuesta> respuestas
 ) {
     public DatosListadoTopico(Topico topico) {
         this(
@@ -19,7 +23,8 @@ public record DatosListadoTopico(
                 topico.getFechaDeCreacion(),
                 topico.getStatus(),
                 topico.getAutor().getNombre(),
-                String.valueOf(topico.getCurso().getNombreCurso())
+                String.valueOf(topico.getCurso().getNombreCurso()),
+                topico.getRespuestas().stream().map(DatosRespuestaRespuesta::new).toList()
         );
     }
 }

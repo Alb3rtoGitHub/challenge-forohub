@@ -41,7 +41,7 @@ public class Topico {
 //    @JsonManagedReference
     private Curso curso;
 
-    @OneToMany(mappedBy = "topico")
+    @OneToMany(mappedBy = "topico", fetch = FetchType.EAGER)
     private List<Respuesta> respuestas;
 
     public Topico(DatosRegistroTopico datosRegistroTopico, Curso curso, Usuario autor) {
