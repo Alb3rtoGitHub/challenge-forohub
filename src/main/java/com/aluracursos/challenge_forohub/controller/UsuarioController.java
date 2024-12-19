@@ -113,7 +113,7 @@ public class UsuarioController {
 
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity<Usuario> eliminarUsuario(@PathVariable Long id) {
+    public ResponseEntity eliminarUsuario(@PathVariable Long id) {
         if (id == null || id <= 0) {
             throw new IllegalArgumentException("El id " + id + " no existe.");
         }

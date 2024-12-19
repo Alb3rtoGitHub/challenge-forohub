@@ -48,7 +48,7 @@ public class Usuario implements UserDetails {
     )
     private List<Perfil> perfiles = new ArrayList<>();
 
-    @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "autor", fetch = FetchType.EAGER)
     private List<Respuesta> respuestas = new ArrayList<>();
 
     public Usuario(DatosRegistroUsuario datosRegistroUsuario, String passwordEncriptado, List<Perfil> perfiles) {
@@ -62,6 +62,11 @@ public class Usuario implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("ROLE_USUARIO"));
+
+        // Posible mejora?
+//        return perfiles.stream()
+//                .map(perfil -> new SimpleGrantedAuthority(perfil.getNombre().name()))
+//                .toList();
     }
 
     @Override

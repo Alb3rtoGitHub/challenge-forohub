@@ -1,6 +1,7 @@
 package com.aluracursos.challenge_forohub.controller;
 
 import com.aluracursos.challenge_forohub.domain.respuesta.*;
+import com.aluracursos.challenge_forohub.domain.topico.StatusTopico;
 import com.aluracursos.challenge_forohub.domain.topico.TopicoRepository;
 import com.aluracursos.challenge_forohub.domain.usuario.UsuarioRepository;
 import jakarta.validation.Valid;
@@ -53,11 +54,6 @@ public class RespuestaController {
     @PostMapping
     @Transactional
     public ResponseEntity<DatosRespuestaRespuesta> registrarRespuesta(@RequestBody @Valid DatosRegistroRespuesta datosRegistroRespuesta, UriComponentsBuilder uriComponentsBuilder) {
-        // Validar si la respuesta ya existe
-        respuestaRepository.findByMensajeContains(datosRegistroRespuesta.mensaje())
-                .ifPresent(respuesta -> {
-                    throw new IllegalArgumentException("Ya Existe una respuesta con el mismo mensaje.");
-                });
 
 
         var autor = usuarioRepository.findById(datosRegistroRespuesta.usuarioId())
@@ -65,6 +61,23 @@ public class RespuestaController {
 
         var topico = topicoRepository.findById(datosRegistroRespuesta.topicoId())
                 .orElseThrow(() -> new IllegalArgumentException("El topico con ID " + datosRegistroRespuesta.topicoId() + " no existe."));
+
+        // Validar si la respuesta ya existe
+//        respuestaRepository.findByMensaje(datosRegistroRespuesta.mensaje())
+//                .ifPresent(respuesta -> {
+//                    throw new IllegalArgumentException("Ya Existe una respuesta con el mismo mensaje.");
+//                });
+        // Validar si ya existe el mensaje en este tópico
+        boolean existeMismoMensajeEnTopico = topico.getRespuestas().stream()
+                .anyMatch(respuesta -> respuesta.getMensaje().equalsIgnoreCase(datosRegistroRespuesta.mensaje()));
+        if (existeMismoMensajeEnTopico) {
+            throw new IllegalArgumentException("Ya Existe una respuesta con el mismo mensaje en este tópico.");
+        }
+
+        // Cambiar el estado del tópico si no tiene respuestas aún
+        if (topico.getStatus() == StatusTopico.SIN_RESPUESTA) {
+            topico.cambiarStatus(StatusTopico.CON_RESPUESTA);
+        }
 
         Respuesta respuesta = respuestaRepository.save(new Respuesta(datosRegistroRespuesta, autor, topico));
 
@@ -83,6 +96,10 @@ public class RespuestaController {
         // Buscar la respuesta con Optional, si la encuentra la usamos o sino lanza Exception
         var respuesta = respuestaRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("El respuesta con ID " + id + " no existe."));
+
+        if (respuesta.getSolucion()) {
+            throw new IllegalArgumentException("El topico esta solucionado, ingrese otro Topico nuevo");
+        }
         respuesta.actualizarDatosRespuesta(datosActualizarRespuesta);
         return ResponseEntity.ok(new DatosRespuestaRespuesta(respuesta));
     }
@@ -98,7 +115,9 @@ public class RespuestaController {
             throw new IllegalArgumentException("La respuesta con id " + id + " no existe.");
         }
 
+        System.out.println("Control 1---------------------------->");
         respuestaRepository.deleteById(id);
+        System.out.println("Control 2---------------------------->");
         return ResponseEntity.noContent().build();
     }
 }

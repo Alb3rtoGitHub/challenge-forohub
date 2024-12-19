@@ -78,6 +78,15 @@ public class Topico {
 
     }
 
+    public void cambiarStatus(StatusTopico statusTopico) {
+        this.status = statusTopico;
+    }
+
+    public void actualizarSolucionado(Respuesta respuesta) {
+        this.status = StatusTopico.RESUELTO;
+//        this.respuestas.add(respuesta);
+    }
+
     // Para borrado lógico
 //    public void desactivarTopico() {
 //        this.activo = false;

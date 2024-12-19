@@ -3,6 +3,9 @@ package com.aluracursos.challenge_forohub.controller;
 import com.aluracursos.challenge_forohub.domain.curso.Curso;
 import com.aluracursos.challenge_forohub.domain.curso.CursoRepository;
 import com.aluracursos.challenge_forohub.domain.curso.NombreCurso;
+import com.aluracursos.challenge_forohub.domain.perfil.Rol;
+import com.aluracursos.challenge_forohub.domain.respuesta.Respuesta;
+import com.aluracursos.challenge_forohub.domain.respuesta.RespuestaRepository;
 import com.aluracursos.challenge_forohub.domain.topico.*;
 import com.aluracursos.challenge_forohub.domain.usuario.Usuario;
 import com.aluracursos.challenge_forohub.domain.usuario.UsuarioRepository;
@@ -32,6 +35,8 @@ public class TopicoController {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+    @Autowired
+    private RespuestaRepository respuestaRepository;
 
     @PostMapping
     @Transactional
@@ -161,4 +166,34 @@ public class TopicoController {
 //        return ResponseEntity.noContent().build(); // retorna el código 204
     }
 
+    @PutMapping("/{id}/resuelto")
+    @Transactional
+    public ResponseEntity<DatosRespuestaTopico> resolverTopico(@PathVariable("id") Long id, @RequestBody @Valid DatosResolverTopico datosResolverTopico) {
+        // Validar Topico
+        Topico topico = topicoRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("El topico con ID " + id + " no existe."));
+
+        // Validar que el topico no esté resuelto
+        if(topico.getStatus() == StatusTopico.RESUELTO) {
+            throw new IllegalArgumentException("El tópico ya está resuelto.");
+        }
+
+        // Validar si es profesor
+        Usuario profesor = usuarioRepository.findById(datosResolverTopico.profesorId())
+                .orElseThrow(() -> new IllegalArgumentException("El profesor con ID " + datosResolverTopico.profesorId() + " no existe."));
+
+        if(profesor.getPerfiles().stream().noneMatch(perfil -> perfil.getNombre() == Rol.ROLE_PROFESOR)) {
+            throw new IllegalArgumentException("Solo un profesor puede resolver el tópico.");
+        }
+
+        // Validar la respuesta seleccionada
+        Respuesta respuesta = respuestaRepository.findById(datosResolverTopico.respuestaId())
+                .orElseThrow(() -> new IllegalArgumentException("La respuesta con ID " + datosResolverTopico.respuestaId() + " no existe."));
+        if (!respuesta.getTopico().getId().equals(topico.getId())) {
+            throw new IllegalArgumentException("La respuesta no pertenece a este tópico.");
+        }
+        respuesta.setSolucion(true);
+        topico.actualizarSolucionado(respuesta);
+        return ResponseEntity.ok(new DatosRespuestaTopico(topico));
+    }
 }

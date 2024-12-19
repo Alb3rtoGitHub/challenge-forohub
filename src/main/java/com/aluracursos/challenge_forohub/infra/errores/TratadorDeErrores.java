@@ -2,6 +2,7 @@ package com.aluracursos.challenge_forohub.infra.errores;
 
 import com.aluracursos.challenge_forohub.infra.security.JWTException;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -22,10 +23,16 @@ public class TratadorDeErrores {
         return ResponseEntity.badRequest().body(errores);
     }
 
+//    @ExceptionHandler(IllegalArgumentException.class)
+//    public ResponseEntity tratarErrorDuplicados(IllegalArgumentException ex) {
+//        var errores = ex.getMessage();
+//        return ResponseEntity.badRequest().body(errores);
+//    }
+
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity tratarErrorDuplicados(IllegalArgumentException ex) {
+    public ResponseEntity<String> tratarError403(IllegalArgumentException ex) {
         var errores = ex.getMessage();
-        return ResponseEntity.badRequest().body(errores);
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errores);
     }
 
     @ExceptionHandler(JWTException.class)
@@ -33,7 +40,7 @@ public class TratadorDeErrores {
         return ResponseEntity.status(401).body("Error de autenticación: " + ex.getMessage());
     }
 
-    private record DatosErrorValidacion(String campo, String error){
+    private record DatosErrorValidacion(String campo, String error) {
         public DatosErrorValidacion(FieldError error) {
             this(error.getField(), error.getDefaultMessage());
         }

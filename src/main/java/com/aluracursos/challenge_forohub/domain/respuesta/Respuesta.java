@@ -51,4 +51,8 @@ public class Respuesta {
             this.solucion = datosActualizarRespuesta.solucion();
         }
     }
+
+    public void setSolucion(Boolean solucion) {
+        this.solucion = solucion;
+    }
 }
