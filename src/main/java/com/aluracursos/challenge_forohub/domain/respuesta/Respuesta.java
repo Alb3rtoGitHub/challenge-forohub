@@ -47,9 +47,6 @@ public class Respuesta {
         if (datosActualizarRespuesta.mensaje() != null) {
             this.mensaje = datosActualizarRespuesta.mensaje();
         }
-        if (datosActualizarRespuesta.solucion() != null) {
-            this.solucion = datosActualizarRespuesta.solucion();
-        }
     }
 
     public void setSolucion(Boolean solucion) {

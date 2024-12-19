@@ -23,12 +23,6 @@ public class TratadorDeErrores {
         return ResponseEntity.badRequest().body(errores);
     }
 
-//    @ExceptionHandler(IllegalArgumentException.class)
-//    public ResponseEntity tratarErrorDuplicados(IllegalArgumentException ex) {
-//        var errores = ex.getMessage();
-//        return ResponseEntity.badRequest().body(errores);
-//    }
-
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<String> tratarError403(IllegalArgumentException ex) {
         var errores = ex.getMessage();

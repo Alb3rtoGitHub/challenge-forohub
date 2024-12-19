@@ -61,12 +61,12 @@ public class Usuario implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_USUARIO"));
+//        return List.of(new SimpleGrantedAuthority("ROLE_USUARIO"));
 
         // Posible mejora?
-//        return perfiles.stream()
-//                .map(perfil -> new SimpleGrantedAuthority(perfil.getNombre().name()))
-//                .toList();
+        return perfiles.stream()
+                .map(perfil -> new SimpleGrantedAuthority(perfil.getNombre().name()))
+                .toList();
     }
 
     @Override
