@@ -5,6 +5,7 @@ import com.aluracursos.challenge_forohub.domain.perfil.Perfil;
 import com.aluracursos.challenge_forohub.domain.perfil.PerfilRepository;
 import com.aluracursos.challenge_forohub.domain.topico.DatosListadoTopico;
 import com.aluracursos.challenge_forohub.domain.usuario.*;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -24,6 +25,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/usuarios")
+@SecurityRequirement(name = "bearer-key")
 public class UsuarioController {
 
     @Autowired

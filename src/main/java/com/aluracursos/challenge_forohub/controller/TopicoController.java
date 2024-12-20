@@ -9,6 +9,7 @@ import com.aluracursos.challenge_forohub.domain.respuesta.RespuestaRepository;
 import com.aluracursos.challenge_forohub.domain.topico.*;
 import com.aluracursos.challenge_forohub.domain.usuario.Usuario;
 import com.aluracursos.challenge_forohub.domain.usuario.UsuarioRepository;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -25,6 +26,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/topicos")
+@SecurityRequirement(name = "bearer-key")
 public class TopicoController {
 
     @Autowired
