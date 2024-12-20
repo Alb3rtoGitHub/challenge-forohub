@@ -49,7 +49,19 @@ public class RespuestaController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-//TODO otros GET's
+    @GetMapping("/buscar")
+    public ResponseEntity<Page<DatosListadoRespuesta>> buscarRespuestasPorVariosParametros(
+            @RequestParam(required = false) String mensaje,
+            @RequestParam(required = false) Long topicoId,
+            @RequestParam(required = false) Long autorId,
+            @PageableDefault(page = 0, size = 10) Pageable pageable
+    ){
+        Page<Respuesta> resultados = respuestaRepository.buscarRespuestaConFiltros(mensaje,topicoId, autorId, pageable);
+
+        // Convertir los resultados en DTO para retornar la respuesta
+        Page<DatosListadoRespuesta> respuestaDTO = resultados.map(DatosListadoRespuesta::new);
+        return ResponseEntity.ok(respuestaDTO);
+    }
 
     @PostMapping
     @Transactional
@@ -97,7 +109,7 @@ public class RespuestaController {
         var respuesta = respuestaRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("El respuesta con ID " + id + " no existe."));
 
-        if (respuesta.getSolucion()) {
+        if (respuesta.isSolucion()) {
             throw new IllegalArgumentException("El topico esta solucionado, ingrese otro Topico nuevo");
         }
         respuesta.actualizarDatosRespuesta(datosActualizarRespuesta);
@@ -115,9 +127,7 @@ public class RespuestaController {
             throw new IllegalArgumentException("La respuesta con id " + id + " no existe.");
         }
 
-        System.out.println("Control 1---------------------------->");
         respuestaRepository.deleteById(id);
-        System.out.println("Control 2---------------------------->");
         return ResponseEntity.noContent().build();
     }
 }

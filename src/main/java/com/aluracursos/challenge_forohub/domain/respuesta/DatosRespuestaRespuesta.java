@@ -17,7 +17,7 @@ public record DatosRespuestaRespuesta(
                 respuesta.getFechaCreacion(),
                 respuesta.getTopico().getTitulo(),
                 respuesta.getAutor().getNombre(),
-                respuesta.getSolucion()
+                respuesta.isSolucion()
         );
     }
 }
