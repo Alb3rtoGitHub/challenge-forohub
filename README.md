@@ -5,13 +5,13 @@
 información y Servicio de Autenticación/Autorización, finalmente se documenta con Swagger.
 
 <p align="center">
-<img src="ForoHub1.png" alt="Foro Hub Banner" style="width: 400px">
+<img src="./img/ForoHub1.png" alt="Foro Hub Banner" style="width: 400px">
 </p>
 
 ## 💽Insignia Challenge Foro Hub
 El programa **ONE Oracle Next Education** junto con la academa **Alura Latam** otorgan una insignia a quienes finalizan este Challenge.
 <p align="center">
-<img src="ForoHub3.png" alt="Insignia Challenge LiterAlura" style="width: 400px">
+<img src="img/ForoHub3.png" alt="Insignia Challenge LiterAlura" style="width: 400px">
 </p>
 <p align="center">
 <img src="https://img.shields.io/badge/STATUS-%20TERMINADO-green">
@@ -27,9 +27,8 @@ El programa **ONE Oracle Next Education** junto con la academa **Alura Latam** o
 2. [Funcionalidades](#funcionalidades)
 3. [Acceso al Proyecto](#acceso-al-proyecto)
 4. [Tecnologías Utilizadas](#tecnologías-utilizadas)
-5. [Contribuyentes](#contribuyentes)
-6. [Desarrolladores](#desarrolladores)
-7. [Licencia](#licencia)
+5. [Desarrollador](#desarrollador)
+6. [Desarrollador](#desarrollador)
 
 ---
 
@@ -86,8 +85,13 @@ $ git clone https://github.com/tuusuario/forohub.git
 
 ### 🛠️ Ejecución del Proyecto
 
-1. Asegúrate de tener instalado Java 17 y Maven.
-2. Configura la base de datos en el archivo `application.properties` según tu entorno.
+1. Asegúrate de tener instalado Java 17, MySQL y Maven.
+2. Configura la base de datos en el archivo `application.properties` en `src/main/resources/application.properties` según tu entorno:
+   ```properties
+   spring.datasource.url=jdbc:postgresql://tu_localhost:tu_Port/tu_nombre_Base_Datos
+   spring.datasource.username=tu_usuario
+   spring.datasource.password=tu_contraseña
+   ```
 3. Ejecuta el siguiente comando:
 
 ```bash
@@ -96,10 +100,33 @@ $ mvn spring-boot:run
 Tambien puedes ejecutar el archivo:
 
 ### 📚 Acceso a la Documentación
+Se puede ver la documentación cuando corres el servicio en tu PC local:
 
-La documentación interactiva está disponible en:
+La Documentacion de la api esta disponible en:
+[http://localhost:8080/v3/api-docs](http://localhost:8080/v3/api-docs)
+
+<p align="center">
+<img src="img/DocumentacionAPI.png" alt="Documentacion de la API" style="width: 600px">
+</p>
+
+
+La Documentación interactiva está disponible en:
 [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
 
+Página de Incio de Swagger:
+<p align="center">
+<img src="img/SwaggerInicio.png" alt="Swagger al Inicio" style="width: 600px">
+</p>
+
+Documentación del Controller de Tópico:
+<p align="center">
+<img src="img/SwaggerTopico.png" alt="Swagger TopicoController" style="width: 600px">
+</p>
+
+Documentacion de los Esquemas de la API:
+<p align="center">
+<img src="img/SwaggerSchemas.png" alt="Swagger Esquemas" style="width: 600px">
+</p>
 ---
 
 ## Tecnologías Utilizadas
@@ -111,24 +138,23 @@ La documentación interactiva está disponible en:
 
 ---
 
-## Contribuyentes
+## Desarrollador
 
-Si deseas contribuir a este proyecto, por favor crea un *fork* del repositorio, realiza tus cambios y envía un *pull request*. ¡Tus aportes son bienvenidos!
-
----
-
-## Desarrolladores
-
-| [<img src="https://avatars.githubusercontent.com/u/12345678?v=4" width=115><br><sub>Nombre del Desarrollador</sub>](https://github.com/tuusuario) |
-| :---: |
+| [<img src="./img/Desarrollador.jpeg" width=115><br><sub>Alberto Vallecillo</sub>](https://github.com/Alb3rtoGitHub) |
+|:-------------------------------------------------------------------------------------------------------------------:|
 
 ---
 
-## Licencia
+¡Gracias por explorar Foro Hub! Espero que esta herramienta enriquezca tu experiencia.
 
-Este proyecto está licenciado bajo la licencia MIT. Para más detalles, consulta el archivo [LICENSE](./LICENSE).
+Usa el código con precaución. 🚀
 
----
-
-Gracias por visitar este repositorio. ¡Esperamos que encuentres útil esta API y te animes a colaborar con el proyecto!
-
+### 👨‍💻Autor: Alberto Vallecillo
+<div style="display: flex; justify-content: flex-start;">
+<a href="https://linkedin.com/in/alberto-vallecillo" target="_blank">
+<img src="img/linkedin.svg" alt=linkedin style="margin-bottom: 5px;" />
+</a>
+<a href="https://github.com/Alb3rtoGitHub" target="_blank">
+<img src="img/github.svg" alt=github style="margin-bottom: 5px;" />
+</a>
+</div>
