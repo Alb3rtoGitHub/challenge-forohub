@@ -140,9 +140,7 @@ Documentacion de los Esquemas de la API:
 
 ## 💻Desarrollador
 
-🇦🇷| [<img src="./img/Desarrollador.jpeg" width=115><br><sub>Alberto Vallecillo</sub>](https://github.com/Alb3rtoGitHub) |
-|:-------------------------------------------------------------------------------------------------------------------:|
-🇦🇷
+[<img src="./img/Desarrollador.jpeg" width=115><br><sub>Alberto Vallecillo</sub>](https://github.com/Alb3rtoGitHub)
 
 ---
 
