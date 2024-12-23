@@ -5,13 +5,13 @@
 información y Servicio de Autenticación/Autorización, finalmente se documenta con Swagger.
 
 <p align="center">
-<img src="./img/ForoHub1.png" alt="Foro Hub Banner" style="width: 400px">
+<img src="./img/ForoHub3.png" alt="Foro Hub Banner" style="width: 400px">
 </p>
 
 ## 💽Insignia Challenge Foro Hub
 El programa **ONE Oracle Next Education** junto con la academa **Alura Latam** otorgan una insignia a quienes finalizan este Challenge.
 <p align="center">
-<img src="img/ForoHub3.png" alt="Insignia Challenge LiterAlura" style="width: 400px">
+<img src="img/Badge-Spring-ForoHub.png" alt="Insignia Challenge LiterAlura" style="width: 400px">
 </p>
 <p align="center">
 <img src="https://img.shields.io/badge/STATUS-%20TERMINADO-green">
