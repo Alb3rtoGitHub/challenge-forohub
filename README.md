@@ -1,4 +1,4 @@
-<h1 align="center">🎫Foro Hub🎫</h1>
+<h1 align="center">💻Foro Hub💻</h1>
 
 **Foro Hub** es un desarrollo de un Foro, donde todos los participantes de una plataforma pueden colocar sus preguntas sobre determinados asuntos,
  se crea una API REST usando Spring, tiene validaciones según reglas de negocio, implementación de una Base de Datos MySQL para la persistencia de
@@ -129,7 +129,7 @@ Documentacion de los Esquemas de la API:
 </p>
 ---
 
-## Tecnologías Utilizadas
+## ⚙️Tecnologías Utilizadas
 
 - **Lenguaje:** Java 17
 - **Framework:** Spring Boot 3.3.5
@@ -138,10 +138,11 @@ Documentacion de los Esquemas de la API:
 
 ---
 
-## Desarrollador
+## 💻Desarrollador
 
-| [<img src="./img/Desarrollador.jpeg" width=115><br><sub>Alberto Vallecillo</sub>](https://github.com/Alb3rtoGitHub) |
+🇦🇷| [<img src="./img/Desarrollador.jpeg" width=115><br><sub>Alberto Vallecillo</sub>](https://github.com/Alb3rtoGitHub) |
 |:-------------------------------------------------------------------------------------------------------------------:|
+🇦🇷
 
 ---
 
@@ -149,7 +150,7 @@ Documentacion de los Esquemas de la API:
 
 Usa el código con precaución. 🚀
 
-### 👨‍💻Autor: Alberto Vallecillo
+### 👨‍💻Autor: Alberto Vallecillo 🇦🇷
 <div style="display: flex; justify-content: flex-start;">
 <a href="https://linkedin.com/in/alberto-vallecillo" target="_blank">
 <img src="img/linkedin.svg" alt=linkedin style="margin-bottom: 5px;" />
