@@ -76,11 +76,6 @@ public class RespuestaController {
         var topico = topicoRepository.findById(datosRegistroRespuesta.topicoId())
                 .orElseThrow(() -> new IllegalArgumentException("El topico con ID " + datosRegistroRespuesta.topicoId() + " no existe."));
 
-        // Validar si la respuesta ya existe
-//        respuestaRepository.findByMensaje(datosRegistroRespuesta.mensaje())
-//                .ifPresent(respuesta -> {
-//                    throw new IllegalArgumentException("Ya Existe una respuesta con el mismo mensaje.");
-//                });
         // Validar si ya existe el mensaje en este tópico
         boolean existeMismoMensajeEnTopico = topico.getRespuestas().stream()
                 .anyMatch(respuesta -> respuesta.getMensaje().equalsIgnoreCase(datosRegistroRespuesta.mensaje()));

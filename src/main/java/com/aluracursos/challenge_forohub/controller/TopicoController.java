@@ -195,7 +195,7 @@ public class TopicoController {
             throw new IllegalArgumentException("La respuesta no pertenece a este tópico.");
         }
         respuesta.setSolucion(true);
-        topico.actualizarSolucionado(respuesta);
+        topico.actualizarSolucionado();
         return ResponseEntity.ok(new DatosRespuestaTopico(topico));
     }
 }

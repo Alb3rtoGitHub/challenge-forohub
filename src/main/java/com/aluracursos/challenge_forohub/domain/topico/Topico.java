@@ -82,9 +82,8 @@ public class Topico {
         this.status = statusTopico;
     }
 
-    public void actualizarSolucionado(Respuesta respuesta) {
+    public void actualizarSolucionado() {
         this.status = StatusTopico.RESUELTO;
-//        this.respuestas.add(respuesta);
     }
 
     // Para borrado lógico
