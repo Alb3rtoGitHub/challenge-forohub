@@ -126,6 +126,7 @@ Documentacion de los Esquemas de la API:
 <p align="center">
 <img src="img/SwaggerSchemas.png" alt="Swagger Esquemas" style="width: 600px">
 </p>
+
 ---
 
 ## ⚙️Tecnologías Utilizadas
