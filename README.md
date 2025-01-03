@@ -28,7 +28,6 @@ El programa **ONE Oracle Next Education** junto con la academa **Alura Latam** o
 3. [Acceso al Proyecto](#acceso-al-proyecto)
 4. [Tecnologías Utilizadas](#tecnologías-utilizadas)
 5. [Desarrollador](#desarrollador)
-6. [Desarrollador](#desarrollador)
 
 ---
 
