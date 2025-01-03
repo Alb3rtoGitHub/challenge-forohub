@@ -52,6 +52,7 @@ Este proyecto se desarrolló como parte del Challenge Back End de Alura, aplican
 - **Resolución de un tópico** Permite dar por resuelto un tópico con un ID especificado.
 
 ### Respuesta
+
 - **Crear una respuesta a un tópico:** Permite registrar una respuesta según el ID del tópico y usuario, con el mensaje, que no se pueder repetir el mismo texto en el mismo topico.
 - **Listar todas las respuestas:** Devuelve un listado de las respuestas almacenados en la base de datos, paginados y ordenados por fecha en forma ascendente.
 - **Consultar una respuesta específica:** Obtiene los detalles de una respuesta según su ID.
@@ -69,6 +70,7 @@ Este proyecto se desarrolló como parte del Challenge Back End de Alura, aplican
 - **Eliminar un usuario:** Borra un usuario identificado por su ID.
 
 ### Documentación
+
 - **Documentación interactiva con Swagger:** Accede a la especificación de la API de manera visual y prueba las rutas implementadas.
 
 ---
@@ -91,14 +93,17 @@ $ git clone https://github.com/tuusuario/forohub.git
    spring.datasource.username=tu_usuario
    spring.datasource.password=tu_contraseña
    ```
+   
 3. Ejecuta el siguiente comando:
 
 ```bash
 $ mvn spring-boot:run
 ```
+
 Tambien puedes ejecutar el archivo:
 
 ### 📚 Acceso a la Documentación
+
 Se puede ver la documentación cuando corres el servicio en tu PC local:
 
 La Documentacion de la api esta disponible en:
@@ -107,7 +112,6 @@ La Documentacion de la api esta disponible en:
 <p align="center">
 <img src="img/DocumentacionAPI.png" alt="Documentacion de la API" style="width: 600px">
 </p>
-
 
 La Documentación interactiva está disponible en:
 [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
@@ -126,6 +130,7 @@ Documentacion de los Esquemas de la API:
 <p align="center">
 <img src="img/SwaggerSchemas.png" alt="Swagger Esquemas" style="width: 600px">
 </p>
+ 
 
 ---
 
